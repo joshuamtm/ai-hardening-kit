@@ -4,7 +4,7 @@
 
 If you find a security issue in this kit itself — for example, a defense that is actively harmful, test code that leaks credentials, or a config template that recommends an insecure practice — please report it before opening a public issue.
 
-**Preferred:** email `joshua@mtm.now` with the subject line `[pentest-kit security]` and a short description.
+**Preferred:** email `joshua@mtm.now` with the subject line `[ai-hardening-kit security]` and a short description.
 
 Please do not:
 - Open a public GitHub issue for security-sensitive findings.
