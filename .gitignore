@@ -1,2 +1,13 @@
 config.env
+test/config.env
 report-*.md
+*.log
+.DS_Store
+__pycache__/
+*.pyc
+.env
+
+# Prevent accidental inclusion of host/user artifacts from local dev environments.
+~/
+**/.claude/
+*.jsonl
