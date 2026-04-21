@@ -68,6 +68,8 @@ ai-hardening-kit/
 ├── README.md                          ← You are here
 ├── LICENSE                            ← MIT
 ├── SECURITY.md                        ← How to report issues in this kit
+├── CONTRIBUTING.md                    ← How to contribute
+├── CHANGELOG.md                       ← Versioned record of what changed when
 │
 ├── defenses/                          ← Platform-agnostic defense recipes
 │   ├── 01-threat-model.md
@@ -86,9 +88,14 @@ ai-hardening-kit/
 │   ├── pre-deployment.md
 │   └── quarterly-review.md
 │
+├── mappings/                          ← Framework crosswalk (OWASP / ATLAS / NIST)
+│   ├── crosswalk.md                   ← Human-readable
+│   └── controls.yaml                  ← Machine-readable
+│
 └── test/                              ← Self-test runner
     ├── README.md
     ├── pentest.py
+    ├── test_check_leaks.py            ← Unit tests for leak detection
     └── config.template.env
 ```
 
@@ -103,11 +110,30 @@ ai-hardening-kit/
 
 ---
 
+## Framework mapping
+
+Every defense, checklist item, and test workflow in this kit is tagged to:
+
+- [OWASP Top 10 for LLM Applications 2025](https://genai.owasp.org/)
+- [OWASP Top 10 for MCP 2025](https://genai.owasp.org/)
+- [MITRE ATLAS](https://atlas.mitre.org/) v5.4
+- [NIST AI Risk Management Framework 1.0](https://www.nist.gov/itl/ai-risk-management-framework)
+
+See [`mappings/crosswalk.md`](mappings/crosswalk.md) (human) or [`mappings/controls.yaml`](mappings/controls.yaml) (machine). Use this when answering funder questionnaires, mapping the kit into an existing NIST AI RMF program, or identifying coverage gaps.
+
+---
+
+## Versioning
+
+This kit follows [Semantic Versioning](https://semver.org/). See [`CHANGELOG.md`](CHANGELOG.md) for what changed in each release. Pin to a tagged version (`v1.0.0`, etc.) if you're citing this kit in a policy or audit trail.
+
+---
+
 ## Contributing
 
 If you find something that doesn't work, a defense that's missing, a new attack class that deserves coverage, or a platform that needs its own guide — open an issue or pull request. This kit improves when real practitioners push back on it.
 
-See [`SECURITY.md`](SECURITY.md) for how to report security issues in the kit itself.
+See [`CONTRIBUTING.md`](CONTRIBUTING.md) for PR guidelines and [`SECURITY.md`](SECURITY.md) for how to report security issues in the kit itself.
 
 ---
 

@@ -1,0 +1,444 @@
+# Machine-readable framework crosswalk for the AI Hardening Kit.
+#
+# Consumed by:
+#   - The web application (role-filtered views, assessment scoring)
+#   - The daily update pipeline (signal relevance scoring)
+#   - Automated funder / insurance / audit questionnaire responses
+#
+# Human-readable version: crosswalk.md
+#
+# Schema version: 1.0.0
+
+schema_version: "1.0.0"
+kit_version: "1.0.0"
+last_verified: "2026-04-21"
+
+frameworks:
+  owasp_llm:
+    name: "OWASP Top 10 for LLM Applications"
+    version: "2025"
+    url: "https://genai.owasp.org/"
+  owasp_mcp:
+    name: "OWASP Top 10 for MCP"
+    version: "2025"
+    url: "https://genai.owasp.org/"
+  mitre_atlas:
+    name: "MITRE ATLAS"
+    version: "v5.4"
+    url: "https://atlas.mitre.org/"
+  nist_ai_rmf:
+    name: "NIST AI Risk Management Framework"
+    version: "1.0"
+    url: "https://www.nist.gov/itl/ai-risk-management-framework"
+
+controls:
+
+  # ── defenses/01-threat-model.md ──
+
+  - id: tm.injection_classes
+    source: defenses/01-threat-model.md
+    section: "Direct vs indirect prompt injection"
+    summary: "Distinguish direct injection (hostile user) from indirect injection (hostile data)."
+    owasp_llm: [LLM01]
+    owasp_mcp: [MCP01]
+    mitre_atlas: [AML.T0051.000, AML.T0051.001]
+    nist_ai_rmf: [MAP-2.1, MAP-5.1]
+    audience: [it, consultant, builder]
+
+  - id: tm.threat_actors
+    source: defenses/01-threat-model.md
+    section: "Threat actors"
+    summary: "Opportunistic, targeted, insider, and supply-chain actor profiles."
+    owasp_llm: [LLM01, LLM03]
+    owasp_mcp: [MCP08]
+    mitre_atlas: [AML.T0018]
+    nist_ai_rmf: [MAP-1.1, MAP-3.1]
+    audience: [ed, it, consultant]
+
+  - id: tm.canonical_attack
+    source: defenses/01-threat-model.md
+    section: "Canonical attack (hidden email instructions)"
+    summary: "Email contains hidden instructions; AI processes them as commands."
+    owasp_llm: [LLM01, LLM02]
+    owasp_mcp: [MCP01, MCP05]
+    mitre_atlas: [AML.T0051.001]
+    nist_ai_rmf: [MAP-5.1]
+    audience: [ed, dev_director, program_staff, it, consultant, builder]
+
+  - id: tm.win_conditions
+    source: defenses/01-threat-model.md
+    section: "What a win looks like"
+    summary: "Reduce success rate, blast radius, data-out value, and detection/recovery time."
+    owasp_llm: [LLM01, LLM02, LLM06]
+    mitre_atlas: [AML.T0024, AML.T0025]
+    nist_ai_rmf: [MAP-5.1, MEASURE-2.7, MANAGE-1.3]
+    audience: [it, consultant, builder]
+
+  # ── defenses/02-system-prompt-hardening.md ──
+
+  - id: sp.no_secrets
+    source: defenses/02-system-prompt-hardening.md
+    section: "Anti-pattern: secrets in system prompt"
+    summary: "System prompts leak. Never embed credentials or secrets."
+    owasp_llm: [LLM02, LLM07]
+    owasp_mcp: [MCP10]
+    mitre_atlas: [AML.T0055, AML.T0056]
+    nist_ai_rmf: [MANAGE-2.3]
+    audience: [it, builder]
+
+  - id: sp.no_confidential_framing
+    source: defenses/02-system-prompt-hardening.md
+    section: "Anti-pattern: 'confidential' framing"
+    summary: "Claiming instructions are secret telegraphs attack value."
+    owasp_llm: [LLM07]
+    mitre_atlas: [AML.T0056]
+    nist_ai_rmf: [MAP-5.1]
+    audience: [it, builder]
+
+  - id: sp.role_anchoring
+    source: defenses/02-system-prompt-hardening.md
+    section: "Pattern: role anchoring with refusal"
+    summary: "Pin role tightly with explicit scope and refusal language."
+    owasp_llm: [LLM01, LLM09]
+    mitre_atlas: [AML.T0054]
+    nist_ai_rmf: [MAP-5.1]
+    audience: [it, builder]
+
+  - id: sp.data_instruction_framing
+    source: defenses/02-system-prompt-hardening.md
+    section: "Pattern: explicit data/instruction framing"
+    summary: "Tell the model that external content is data, not instructions."
+    owasp_llm: [LLM01]
+    owasp_mcp: [MCP05]
+    mitre_atlas: [AML.T0051.001]
+    nist_ai_rmf: [MAP-5.1]
+    audience: [it, builder]
+
+  - id: sp.name_attack_classes
+    source: defenses/02-system-prompt-hardening.md
+    section: "Pattern: naming attack classes"
+    summary: "Explicitly describe attack patterns the model should recognize."
+    owasp_llm: [LLM01]
+    mitre_atlas: [AML.T0051]
+    nist_ai_rmf: [MEASURE-2.7]
+    audience: [it, builder]
+
+  - id: sp.tool_scope_guidance
+    source: defenses/02-system-prompt-hardening.md
+    section: "Pattern: scope-tight tool guidance"
+    summary: "Per-tool guidance on what legitimate use looks like."
+    owasp_llm: [LLM06]
+    owasp_mcp: [MCP02]
+    mitre_atlas: [AML.T0053]
+    nist_ai_rmf: [MANAGE-2.4]
+    audience: [it, builder]
+
+  - id: sp.confirmation_gating
+    source: defenses/02-system-prompt-hardening.md
+    section: "Pattern: user confirmation gating"
+    summary: "Destructive or exfiltrating actions require explicit user confirmation."
+    owasp_llm: [LLM02, LLM06]
+    owasp_mcp: [MCP06]
+    mitre_atlas: [AML.T0024, AML.T0025]
+    nist_ai_rmf: [MAP-3.5, MANAGE-2.4]
+    audience: [ed, dev_director, program_staff, it, consultant, builder]
+
+  # ── defenses/03-data-instruction-boundary.md ──
+
+  - id: di.delimiters
+    source: defenses/03-data-instruction-boundary.md
+    section: "Layer 1: explicit delimiters"
+    summary: "Wrap untrusted content in named tags the model treats as data."
+    owasp_llm: [LLM01]
+    owasp_mcp: [MCP05]
+    mitre_atlas: [AML.T0051.001]
+    nist_ai_rmf: [MAP-5.1]
+    audience: [it, builder]
+
+  - id: di.double_confirmed_intent
+    source: defenses/03-data-instruction-boundary.md
+    section: "Layer 1: double-confirmed intent"
+    summary: "Model summarizes planned action; user confirms before execution."
+    owasp_llm: [LLM06]
+    mitre_atlas: [AML.T0024]
+    nist_ai_rmf: [MAP-3.5, MANAGE-2.4]
+    audience: [it, consultant, builder]
+
+  - id: di.content_quarantine
+    source: defenses/03-data-instruction-boundary.md
+    section: "Layer 2: content quarantine (per-item processing)"
+    summary: "Process each email / document in its own model call; summarize-of-summaries to aggregate."
+    owasp_llm: [LLM01]
+    mitre_atlas: [AML.T0051.001]
+    nist_ai_rmf: [MAP-5.1, MANAGE-2.4]
+    audience: [it, builder]
+
+  - id: di.structured_output
+    source: defenses/03-data-instruction-boundary.md
+    section: "Layer 2: structured output contracts"
+    summary: "Constrain output to JSON schema; narrows exfiltration channels."
+    owasp_llm: [LLM02, LLM05]
+    mitre_atlas: [AML.T0025]
+    nist_ai_rmf: [MANAGE-2.4]
+    audience: [it, builder]
+
+  - id: di.deny_by_default_tools
+    source: defenses/03-data-instruction-boundary.md
+    section: "Layer 3: deny-by-default tool wrappers"
+    summary: "Tool wrappers enforce recipient/rate/content checks in code, not prompt."
+    owasp_llm: [LLM02, LLM06]
+    owasp_mcp: [MCP02]
+    mitre_atlas: [AML.T0025, AML.T0053]
+    nist_ai_rmf: [MANAGE-2.4]
+    audience: [it, builder]
+
+  - id: di.human_in_the_loop
+    source: defenses/03-data-instruction-boundary.md
+    section: "Layer 3: human-in-the-loop for irreversible actions"
+    summary: "Real human confirmation (UI click / typed token) for destructive actions."
+    owasp_llm: [LLM06]
+    mitre_atlas: [AML.T0024]
+    nist_ai_rmf: [MAP-3.5, MANAGE-2.4]
+    audience: [ed, dev_director, it, consultant, builder]
+
+  # ── defenses/04-connector-permissions.md ──
+
+  - id: cp.three_scopes
+    source: defenses/04-connector-permissions.md
+    section: "Three scope dimensions"
+    summary: "Every connector: read surface, write surface, identity — minimize all three."
+    owasp_llm: [LLM02, LLM06]
+    owasp_mcp: [MCP02, MCP04]
+    mitre_atlas: [AML.T0025, AML.T0055]
+    nist_ai_rmf: [MAP-3.5, MANAGE-2.4]
+    audience: [ed, dev_director, it, consultant, builder]
+
+  - id: cp.gmail_read_scope
+    source: defenses/04-connector-permissions.md
+    section: "Gmail: minimize read surface"
+    summary: "Label-based or user-initiated-per-email access; avoid full mailbox."
+    owasp_llm: [LLM02, LLM06]
+    owasp_mcp: [MCP02]
+    mitre_atlas: [AML.T0025]
+    nist_ai_rmf: [MANAGE-2.4]
+    audience: [ed, dev_director, program_staff, it, consultant]
+
+  - id: cp.gmail_drafts_only
+    source: defenses/04-connector-permissions.md
+    section: "Gmail: drafts-only send"
+    summary: "Draft, never send. Human clicks send after review."
+    owasp_llm: [LLM02, LLM06]
+    mitre_atlas: [AML.T0024, AML.T0025]
+    nist_ai_rmf: [MAP-3.5, MANAGE-2.4]
+    audience: [ed, dev_director, program_staff, it, consultant]
+
+  - id: cp.gmail_identity
+    source: defenses/04-connector-permissions.md
+    section: "Gmail: revocable OAuth identity"
+    summary: "Per-user OAuth that can be revoked, not shared accounts or long-lived keys."
+    owasp_llm: [LLM03]
+    owasp_mcp: [MCP04, MCP10]
+    mitre_atlas: [AML.T0055]
+    nist_ai_rmf: [MANAGE-2.4]
+    audience: [it, consultant, builder]
+
+  - id: cp.drive_read_scope
+    source: defenses/04-connector-permissions.md
+    section: "Drive: minimize read surface"
+    summary: "Per-session file selection or single AI-safe folder; never full Drive."
+    owasp_llm: [LLM02, LLM06]
+    mitre_atlas: [AML.T0025]
+    nist_ai_rmf: [MANAGE-2.4]
+    audience: [ed, dev_director, program_staff, it, consultant]
+
+  - id: cp.drive_shared_files_risk
+    source: defenses/04-connector-permissions.md
+    section: "Drive: third-party shared file risk"
+    summary: "Files shared by others may already contain injection payloads."
+    owasp_llm: [LLM01, LLM03]
+    owasp_mcp: [MCP08]
+    mitre_atlas: [AML.T0018, AML.T0051.001]
+    nist_ai_rmf: [MAP-1.1]
+    audience: [ed, dev_director, program_staff, it, consultant]
+
+  - id: cp.slack_scoping
+    source: defenses/04-connector-permissions.md
+    section: "Slack: scoped channels, post-as-bot, draft-only"
+    summary: "Specific channels only; bot identity clearly AI-labeled; drafts when possible."
+    owasp_llm: [LLM02, LLM06]
+    mitre_atlas: [AML.T0024, AML.T0025]
+    nist_ai_rmf: [MANAGE-2.4]
+    audience: [it, consultant, builder]
+
+  - id: cp.mcp_rug_pull
+    source: defenses/04-connector-permissions.md
+    section: "MCP: tool shadowing / rug pulls"
+    summary: "MCP tool descriptions can silently change; baseline and diff."
+    owasp_llm: [LLM03]
+    owasp_mcp: [MCP03, MCP07]
+    mitre_atlas: [AML.T0031, AML.T0053]
+    nist_ai_rmf: [MEASURE-2.7, MANAGE-2.4]
+    audience: [it, consultant, builder]
+
+  - id: cp.mcp_shadow_servers
+    source: defenses/04-connector-permissions.md
+    section: "MCP: shadow servers"
+    summary: "MCP servers running on localhost without explicit user install."
+    owasp_llm: [LLM03]
+    owasp_mcp: [MCP09]
+    mitre_atlas: [AML.T0018]
+    nist_ai_rmf: [MEASURE-2.7]
+    audience: [it, consultant, builder]
+
+  - id: cp.mcp_vet_baseline_sandbox
+    source: defenses/04-connector-permissions.md
+    section: "MCP: vet, baseline, diff, sandbox"
+    summary: "Review source, snapshot tool descriptions, sandbox external-facing servers."
+    owasp_llm: [LLM03]
+    owasp_mcp: [MCP03, MCP07, MCP08]
+    mitre_atlas: [AML.T0031, AML.T0053]
+    nist_ai_rmf: [MEASURE-2.7, MANAGE-2.4]
+    audience: [it, consultant, builder]
+
+  - id: cp.cred_hygiene
+    source: defenses/04-connector-permissions.md
+    section: "Credential hygiene"
+    summary: "No secrets in prompts, skill files, or git; use a secrets manager."
+    owasp_llm: [LLM02, LLM07]
+    owasp_mcp: [MCP10]
+    mitre_atlas: [AML.T0055, AML.T0056]
+    nist_ai_rmf: [MANAGE-2.3]
+    audience: [it, consultant, builder]
+
+  - id: cp.token_lifecycle
+    source: defenses/04-connector-permissions.md
+    section: "Short-lived tokens, freshness audit, usage logging"
+    summary: "OAuth over long-lived keys; 90-day audit; log access for anomaly detection."
+    owasp_llm: [LLM03]
+    owasp_mcp: [MCP04, MCP10]
+    mitre_atlas: [AML.T0025, AML.T0055]
+    nist_ai_rmf: [MEASURE-2.7, MANAGE-4.1]
+    audience: [it, consultant, builder]
+
+  # ── defenses/05-egress-controls.md ──
+
+  - id: eg.no_arbitrary_http
+    source: defenses/05-egress-controls.md
+    section: "Path 1: no arbitrary HTTP / allowlist"
+    summary: "Don't grant HTTP tool; if you must, enforce hostname allowlist at proxy."
+    owasp_llm: [LLM02, LLM06]
+    owasp_mcp: [MCP06]
+    mitre_atlas: [AML.T0025]
+    nist_ai_rmf: [MANAGE-2.4]
+    audience: [it, consultant, builder]
+
+  - id: eg.oasis_case_study
+    source: defenses/05-egress-controls.md
+    section: "Oasis Security Claude.ai exfiltration case"
+    summary: "Real-world data-exfiltration via Files API; granular egress matters."
+    owasp_llm: [LLM02]
+    mitre_atlas: [AML.T0025]
+    nist_ai_rmf: [MEASURE-2.7]
+    audience: [it, consultant, builder]
+
+  - id: eg.email_drafts_only
+    source: defenses/05-egress-controls.md
+    section: "Path 2: email drafts-only / recipient allowlist"
+    summary: "Prefer drafts-only send; if send, enforce recipient-domain allowlist."
+    owasp_llm: [LLM02, LLM06]
+    mitre_atlas: [AML.T0024, AML.T0025]
+    nist_ai_rmf: [MAP-3.5, MANAGE-2.4]
+    audience: [ed, dev_director, program_staff, it, consultant]
+
+  - id: eg.no_public_shares
+    source: defenses/05-egress-controls.md
+    section: "Path 3: no AI-created public shares"
+    summary: "AI cannot create anyone-with-link shares; monitor for new public shares."
+    owasp_llm: [LLM02]
+    mitre_atlas: [AML.T0025]
+    nist_ai_rmf: [MANAGE-2.4, MANAGE-4.1]
+    audience: [ed, dev_director, it, consultant]
+
+  - id: eg.trusted_mcp_only
+    source: defenses/05-egress-controls.md
+    section: "Path 4: trusted MCP only for sensitive data"
+    summary: "Official or self-hosted MCP for sensitive data; zero-data-retention when available."
+    owasp_llm: [LLM02, LLM03]
+    owasp_mcp: [MCP06, MCP08]
+    mitre_atlas: [AML.T0025, AML.T0053]
+    nist_ai_rmf: [MANAGE-2.4]
+    audience: [it, consultant, builder]
+
+  - id: eg.network_proxy_dns
+    source: defenses/05-egress-controls.md
+    section: "Network-layer: egress proxy / DNS filtering"
+    summary: "Enforce allowlist at the network layer (proxy, DNS filter, firewall)."
+    owasp_llm: [LLM02]
+    owasp_mcp: [MCP06]
+    mitre_atlas: [AML.T0025]
+    nist_ai_rmf: [MANAGE-2.4]
+    audience: [it, consultant, builder]
+
+  - id: eg.logging_alerting
+    source: defenses/05-egress-controls.md
+    section: "Logging and alerting on new destinations / unusual volumes"
+    summary: "Log every network call; alert on new destinations and volume spikes."
+    owasp_llm: [LLM02]
+    mitre_atlas: [AML.T0025]
+    nist_ai_rmf: [MEASURE-2.7, MANAGE-4.1]
+    audience: [it, consultant, builder]
+
+# Known gaps — candidates for future sprints.
+gaps:
+  - id: gap.rag_memory
+    summary: "RAG, vector store, and long-term memory hardening"
+    owasp_llm: [LLM08]
+    mitre_atlas: [AML.T0031, AML.T0048]
+    nist_ai_rmf: [MAP-3.5, MANAGE-2.4]
+    planned_sprint: 2
+    status: "planned"
+
+  - id: gap.mcp_agentic
+    summary: "MCP-specific hardening (tool poisoning, agent escape, CVE-2025-6514 class)"
+    owasp_llm: [LLM03, LLM06]
+    owasp_mcp: [MCP03, MCP07, MCP08]
+    mitre_atlas: [AML.T0053, AML.T0068]
+    nist_ai_rmf: [MAP-3.5, MEASURE-2.7]
+    planned_sprint: 2
+    status: "planned"
+
+  - id: gap.training_poisoning
+    summary: "Training-data poisoning / fine-tuning attacks"
+    owasp_llm: [LLM04]
+    mitre_atlas: [AML.T0018, AML.T0020]
+    nist_ai_rmf: [MAP-4.1, MANAGE-2.4]
+    status: "out_of_scope"
+    reason: "Kit assumes vendor-hosted model; see NIST AI 600-1 for training-time guidance."
+
+  - id: gap.unbounded_consumption
+    summary: "Unbounded resource consumption / cost amplification"
+    owasp_llm: [LLM10]
+    mitre_atlas: [AML.T0034]
+    nist_ai_rmf: [MANAGE-2.4]
+    status: "candidate"
+
+# Role taxonomy — used by the web application for role-filtered views.
+roles:
+  ed:
+    label: "Executive Director / small-org leader"
+    description: "Non-technical decision-maker. Wants 5-minute orientation and a clear yes/no on safety."
+  dev_director:
+    label: "Development / Fundraising Director"
+    description: "Handles donor data and grant information. Cares about PII and donor-list exposure."
+  program_staff:
+    label: "Program Staff"
+    description: "Uses AI for day-to-day work. Needs copy-paste clear guidance, not architecture."
+  it:
+    label: "IT Lead / Accidental Techie"
+    description: "Responsible for implementation. Can follow technical instructions if clear."
+  consultant:
+    label: "Consultant / vCISO"
+    description: "Advising clients. Wants framework mappings and defensible recommendations."
+  builder:
+    label: "Independent Builder / Developer"
+    description: "Building on the API directly. Wants code-level patterns and enforcement points."
