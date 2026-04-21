@@ -6,6 +6,14 @@ Maintained by Joshua Peskay at [Meet the Moment](https://mtm.now). Kit is vendor
 
 ---
 
+> ### 🌐 Prefer to walk through this in 10 minutes instead of reading 1,800 lines?
+>
+> **Try the web version: [ai-safety-check.mtmapps.now](https://ai-safety-check.mtmapps.now)**
+>
+> Plain-English self-check, copy-paste attack drill (no API keys needed), tool inventory, and a role-filtered view of the kit's content — for nonprofit Executive Directors, Development Directors, Program Staff, and the accidental techie. Zero data collected; everything stays in your browser.
+
+---
+
 ## The scenario this kit is built around
 
 You ask Claude to read through your recent emails and draft replies to any meeting requests. One of those emails — ostensibly a vendor inquiry — contains hidden instructions in white text, invisible to you but processed by the agent. Those instructions tell Claude to search your Drive for sensitive documents and send them to an attacker-controlled URL.
