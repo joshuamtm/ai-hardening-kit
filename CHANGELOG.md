@@ -8,7 +8,8 @@ This changelog is the authoritative record of "when was this last updated" for f
 
 ## [Unreleased]
 
-*(Changes here will be rolled into the next tagged release.)*
+### Added
+- README link to the new web companion app at [ai-safety-check.mtmapps.now](https://ai-safety-check.mtmapps.now), built on the kit's `mappings/controls.yaml`. The app is the nonprofit-staff-friendly entry point; this repo remains the technical reference.
 
 ---
 
